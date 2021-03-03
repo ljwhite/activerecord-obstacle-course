@@ -21,6 +21,7 @@ describe 'ActiveRecord Obstacle Course, Week 2' do
     # ------------------ Using ActiveRecord ----------------------
     # Solution goes here
     Order.where("user = ?", @user_3)
+    Order.where("user_id = ?", @user_3.id)
     Order.where(user: (@user_3))
     # ------------------------------------------------------------
 
@@ -81,6 +82,7 @@ describe 'ActiveRecord Obstacle Course, Week 2' do
 
     # ------------------ Using ActiveRecord ----------------------
     # Solution goes here
+    items = Item.where.not("id IN (?)", items_not_included)
     items = Item.where.not(id: items_not_included)
     # ------------------------------------------------------------
 
@@ -98,6 +100,8 @@ describe 'ActiveRecord Obstacle Course, Week 2' do
 
     # ------------------ Using ActiveRecord ----------------------
     # Solution goes here
+    grouped_items = Order.find(@order_3.id).items.order("items.name")
+    grouped_items = Order.find(@order_3.id).items.merge(Item.order(:name))
     grouped_items = Item.joins(:orders).where(orders: {id: @order_3.id}).order(:name)
     # ------------------------------------------------------------
 
@@ -152,7 +156,9 @@ describe 'ActiveRecord Obstacle Course, Week 2' do
 
     # ------------------ Using ActiveRecord ----------------------
     # Solution goes here
+    names = Item.joins(:orders).pluck(:name)
     names = Order.joins(:items).pluck(:name)
+    names = Order.joins(:items).pluck("items.name")
     # ------------------------------------------------------------
 
     # Expectation
