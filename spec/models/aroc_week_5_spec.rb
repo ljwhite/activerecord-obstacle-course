@@ -81,6 +81,11 @@ describe 'ActiveRecord Obstacle Course, Week 5' do
     # Zoolander       |         24
 
     # ------------------ ActiveRecord Solution ----------------------
+    # NOTE: Can count either the users or the items. Doesn't matter, since it is grouped by user regardless
+    custom_results = User.joins(:order_items)
+                    .select("users.name, COUNT(users.id) AS total_item_count")
+                    .group(:name)
+                    .order(:name)
     custom_results = User.joins(:items)
                     .select("users.name, COUNT(items.id) AS total_item_count")
                     .group(:name)
