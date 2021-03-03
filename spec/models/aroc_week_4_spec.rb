@@ -53,6 +53,8 @@ describe 'ActiveRecord Obstacle Course, Week 4' do
     # ------------------ Improved Solution ----------------------
     #  Solution goes here
     orders = Order.joins(:order_items)
+            .where("order_items.item_id = ?", @item_4.id)
+    orders = Order.joins(:order_items)
           .where(order_items: {item_id: @item_4.id})
     # -----------------------------------------------------------
 
@@ -71,6 +73,11 @@ describe 'ActiveRecord Obstacle Course, Week 4' do
 
     # ------------------ Improved Solution ----------------------
     #  Solution goes here
+    orders = Order.joins(:order_items)
+                .where("user_id = ? AND order_items.item_id = ?", @user_2.id, @item_4.id)
+    orders = Order.joins(:user, :items)
+                .where(users: {id: @user_2.id})
+                .where(items: {id: @item_4.id})
     orders = Order.joins(:order_items)
                 .where(user_id: @user_2.id)
                 .where(order_items: {item_id: @item_4.id})
