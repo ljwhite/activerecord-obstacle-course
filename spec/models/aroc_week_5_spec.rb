@@ -135,6 +135,11 @@ describe 'ActiveRecord Obstacle Course, Week 5' do
     # how will you turn this into the proper ActiveRecord commands?
 
     # ------------------ ActiveRecord Solution ----------------------
+    data = User.joins(orders: :order_items)
+            .select("users.name AS user_name, orders.id AS order_id, orders.amount / COUNT(order_items.id) AS avg_item_cost")
+            .group("orders.id")
+            .order("user_name DESC, avg_item_cost ASC")
+
     data = Order.joins(:user, :order_items)
             .select("users.name AS user_name, orders.id AS order_id, orders.amount / COUNT(order_items.id) AS avg_item_cost")
             .group("orders.id")
